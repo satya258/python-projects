@@ -1,0 +1,107 @@
+def add_time(start, *duration):
+  days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  a=False
+  if len(duration)>1:
+    day=duration[1]
+    day=day.lower()
+    d=day[0].upper()
+    day=day.replace(day[0],"")
+    day=d+day
+    if day in days:
+      a=True
+
+      d=days.index(day)
+
+  hours=start[0:5]
+  actual_time=hours.split(":")
+  actual_hours=actual_time[0]
+  actual_hours=int(actual_hours)
+  actual_mins=actual_time[1]
+  actual_mins=int(actual_mins)
+  z=start.split(" ")
+  zone=z[1]
+  if zone=="PM" :
+    actual_hours +=12
+  d1=duration[0]
+  dt=d1.split(":")
+
+  duration_hours=int(dt[0])
+  duration_mins=int(dt[1])
+  total_mins=actual_mins+duration_mins
+  while total_mins >=60:
+    actual_hours+=1
+    total_mins=total_mins-60
+  new_mins=" "
+  total_mins=str(total_mins)
+  new_mins=total_mins
+  total_mins=int(total_mins)
+  if total_mins<=9:
+    t='0'
+    total_mins=str(total_mins)
+    new_mins=t+total_mins
+  new_w=0
+  new_weekday=""
+  new_hours=""
+  new_no_of_days=""
+  res=actual_hours+duration_hours
+  if res>=12:
+    if res >=24:
+      actual_days=res/24
+      actual_days=int(actual_days)
+      if a==True:
+        w=d+actual_days
+        new_w=w%7
+        new_weekday=", "+days[new_w]
+       
+  
+      if actual_days==1:
+        new_no_of_days=" (next day)"
+      else:
+        a=str(actual_days)
+        new_no_of_days=" ("+a+" days later)"
+
+      rem_hours=res%24
+
+      if rem_hours>12:
+        f_hours=rem_hours-12
+        f_hours=str(f_hours)
+        new_hours=f_hours+":"
+        zone=" PM"
+      else:
+        if rem_hours==0:
+          new_hours="12:"
+          zone=" AM"
+         
+        
+        else:
+          f_hours=rem_hours
+          f_hours=str(f_hours)
+          new_hours=f_hours+":"
+          zone=" AM"
+        
+    else:
+      f_hours=res-12
+      if f_hours==0:
+        new_hours="12:"
+        zone=" PM"
+        if a==True:
+          new_weekday=", "+days[d]
+      else:
+        f_hours=str(f_hours)
+        new_hours=f_hours+":"
+        zone=" PM"
+        if a==True:
+          new_weekday=", "+days[d]
+  else:
+    f_hours=res
+    f_hours=str(f_hours)
+    new_hours=f_hours+":"
+    zone=" AM"
+    if a==True:
+      new_weekday=", "+days[d]
+  new_time=new_hours+new_mins+zone+new_weekday+new_no_of_days
+  
+  return new_time
+
+
+
